@@ -19,7 +19,15 @@
                 
                 <div class="col-4">
                     Курс {{name}} : {{rate}} рублей 
-                    
+                    <form action="" method="post" novalidate>
+                        {{ form.hidden_tag() }}
+                        <p>
+                            {{ form.currency.label }}<br>
+                            {{ form.currency(size=32) }}<br>
+                        </p>
+                       
+                        <p>{{ form.submit() }}</p>
+                    </form>
                 </div>
 
             </div>
