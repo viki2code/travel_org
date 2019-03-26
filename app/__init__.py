@@ -10,4 +10,4 @@ db = SQLAlchemy(app)
 db.init_app(app)
 migrate = Migrate(app, db)
 
-from app import routes, model
+from app import routes, models

@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ElementTree
 import requests
 from datetime import datetime
 
+
 def find_element(root, code_valute):
     for valute in root.iter('Valute'):
         if valute.find('CharCode').text.upper() == code_valute.upper():
@@ -13,7 +14,7 @@ def find_element(root, code_valute):
     return currency_data
 
 
-def get_currency(date_rate = datetime.now().strftime("%d/%m/%Y")):
+def get_currency(date_rate=datetime.now().strftime("%d/%m/%Y")):
     rate_url = "http://www.cbr.ru/scripts/XML_daily.asp"
     xml = requests.get(rate_url, params=f'date_req={date_rate}')
     xml.raise_for_status()
@@ -21,13 +22,13 @@ def get_currency(date_rate = datetime.now().strftime("%d/%m/%Y")):
     return root
 
 
-def all_currency(date_rate = datetime.now().strftime("%d/%m/%Y")):
-    
+def all_currency(date_rate=datetime.now().strftime("%d/%m/%Y")):
+
     currencies_name = []
     root = get_currency(date_rate)
-    #for idx, valute in enumerate(root.iter('Valute')):
+    # for idx, valute in enumerate(root.iter('Valute')):
     for valute in root.iter('Valute'):
-        
+
         new = (1, valute.find('CharCode').text.upper())
         print(valute.find('CharCode').text.upper())
         currencies_name.append(new)
@@ -35,7 +36,9 @@ def all_currency(date_rate = datetime.now().strftime("%d/%m/%Y")):
     return currencies_name
 
 
-def rate_of_exchange(code_valute, date_rate = datetime.now().strftime("%d/%m/%Y")):
+def rate_of_exchange(
+        code_valute,
+        date_rate=datetime.now().strftime("%d/%m/%Y")):
     try:
         root = get_currency(date_rate)
         result = find_element(root, code_valute)
@@ -44,4 +47,3 @@ def rate_of_exchange(code_valute, date_rate = datetime.now().strftime("%d/%m/%Y"
         print('Сетевая ошибка')
         return False
     return False
-

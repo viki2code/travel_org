@@ -2,3 +2,5 @@ config.py
 __pycache__
 postgres
 create_db.py
+fill_model.py
+migrations
