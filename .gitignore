@@ -3,4 +3,6 @@ __pycache__
 postgres
 create_db.py
 fill_model.py
-migrations
+create_admin.py
+env
+.vscode/

@@ -14,36 +14,35 @@ def find_element(root, code_valute):
     return currency_data
 
 
-def get_currency(date_rate=datetime.now().strftime("%d/%m/%Y")):
+def get_currency(date_rate=datetime.now()):
     rate_url = "http://www.cbr.ru/scripts/XML_daily.asp"
-    xml = requests.get(rate_url, params=f'date_req={date_rate}')
+    date_rate_str = date_rate.strftime("%d/%m/%Y")
+    xml = requests.get(rate_url, params=f'date_req={date_rate_str}')
     xml.raise_for_status()
     root = ElementTree.fromstring(xml.content)
     return root
 
 
-def all_currency(date_rate=datetime.now().strftime("%d/%m/%Y")):
-
+def all_currency(date_rate=datetime.now()):
+    date_rate_str = date_rate.strftime("%d/%m/%Y")
     currencies_name = []
-    root = get_currency(date_rate)
-    # for idx, valute in enumerate(root.iter('Valute')):
-    for valute in root.iter('Valute'):
-
-        new = (1, valute.find('CharCode').text.upper())
-        print(valute.find('CharCode').text.upper())
-        currencies_name.append(new)
+    root = get_currency(date_rate_str)
+    for idx, valute in enumerate(root.iter('Valute')):
+    
+        valute_tuple = (idx, valute.find('CharCode').text.upper())
+        currencies_name.append(valute_tuple)
 
     return currencies_name
 
 
 def rate_of_exchange(
         code_valute,
-        date_rate=datetime.now().strftime("%d/%m/%Y")):
+        date_rate=datetime.now()):
+    date_rate_str = date_rate.strftime("%d/%m/%Y")
     try:
-        root = get_currency(date_rate)
+        root = get_currency(date_rate_str)
         result = find_element(root, code_valute)
         return result
     except (requests.RequestException, ValueError):
-        print('Сетевая ошибка')
-        return False
-    return False
+        return None
+    

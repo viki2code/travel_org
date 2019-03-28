@@ -26,8 +26,10 @@ def index():
 
 @app.route('/login')
 def login():
-    form = LoginForm()
-    return render_template('login.html', title='Sign In', form=form)
+    page_title = 'Авторизация'
+
+    login_form = LoginForm()
+    return render_template('login.html', page_title=page_title,title='Sign In', form=login_form)
 
 
 @app.route('/currency/<code>', methods=['GET', 'POST'])

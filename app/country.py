@@ -1,13 +1,17 @@
 from app.models import Travel_plan, Expenditures, Country
+from sqlalchemy.orm import load_only
+
 
 
 
 def all_countries():
-    countries = Country.query.all()
+
+    countries = Country.query.options(load_only('id','name')).all()
     all_rec = []
-    i = 0
+    
     for country in countries:
         
-        new = (country.id, country.name)
-        all_rec.append(new)
+        country_tuple = (country.id, country.name)
+        all_rec.append(country_tuple)
+        
     return all_rec

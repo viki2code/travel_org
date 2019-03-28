@@ -6,15 +6,15 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Selec
 
 
 class CurrencyInputForm(FlaskForm):
-    currency = StringField('Код валюты: ', validators=[DataRequired()])
-    submit = SubmitField('Sign In')
+    currency = StringField('Код валюты: ', validators= [DataRequired()])
+    submit = SubmitField('Курс валюты')
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    username = StringField('Имя пользователя', validators=[DataRequired()], render_kw={'class': 'form-control'})
+    password = PasswordField('Пароль', validators=[DataRequired()], render_kw={'class': 'form-control'})
     remember_me = BooleanField('Remember Me')
-    submit = SubmitField('Sign In')
+    submit = SubmitField('Sign In', render_kw={'class': 'btn btn-primary'} )
 
 
 class CurrencySelectForm(FlaskForm):
@@ -25,4 +25,4 @@ class CountrySelectForm(FlaskForm):
     country_field = SelectField("Страна: ", choices=all_countries(), default=1)
     date_start = DateField('Дата начала поездки: ', format='%d/%m/%Y')
     date_end = DateField('Дата окончания поездки: ', format='%d/%m/%Y')
-    submit = SubmitField('Sign In')
+    submit = SubmitField('Найти план')
