@@ -24,9 +24,8 @@ def get_currency(date_rate=datetime.now()):
 
 
 def all_currency(date_rate=datetime.now()):
-    date_rate_str = date_rate.strftime("%d/%m/%Y")
     currencies_name = []
-    root = get_currency(date_rate_str)
+    root = get_currency(date_rate)
     for idx, valute in enumerate(root.iter('Valute')):
     
         valute_tuple = (idx, valute.find('CharCode').text.upper())
@@ -38,11 +37,12 @@ def all_currency(date_rate=datetime.now()):
 def rate_of_exchange(
         code_valute,
         date_rate=datetime.now()):
-    date_rate_str = date_rate.strftime("%d/%m/%Y")
+    
     try:
-        root = get_currency(date_rate_str)
+        root = get_currency(date_rate)
         result = find_element(root, code_valute)
         return result
     except (requests.RequestException, ValueError):
+        
         return None
     
