@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    
+    <title>{{page_title}}</title>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert alert-warning" role="alert">
+        {% for message in messages %}
+            {{ message }}<br>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+ 
+  </head>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+  $( ".datepicker" ).datepicker({dateFormat: 'dd/mm/yy'});
+  } );
+  </script>
+  <body>
+       
+      <div class = 'container'>
+            
+            <form action="" method="POST" novalidate>
+
+              {{ form.hidden_tag() }}
+                <p>
+                        <p>
+                                {{ form.name.label }}<br>
+                                {{ form.name }}<br>
+                        </p>
+                        <div >
+                        
+                            {{ form.date_start (class='datepicker') }}<br>
+                        </div>
+                            {{ form.date_end (class='datepicker')}}<br>
+                </p>
+                <p>
+                       
+                  
+                </p>
+             
+                
+              <p>{{ form.submit() }}</p>
+            </form>
+           
+        </div>
+        
+           
+        </form>
+   
+  </body>
+</html>
