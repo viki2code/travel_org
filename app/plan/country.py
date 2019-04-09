@@ -1,4 +1,4 @@
-from app.models import Country
+from app.plan.models import Country
 
 def all_countries():
 

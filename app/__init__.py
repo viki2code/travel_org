@@ -1,64 +1,55 @@
 from flask import Flask
 from config import Config
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-
-app = Flask(__name__)
-app.config.from_object(Config)
-
-db = SQLAlchemy(app)
-db.init_app(app)
-migrate = Migrate(app, db)
-login = LoginManager(app)
-login.init_app(app)
-login.login_view = 'user.login'
-
-from app.user import bp as user_bp
-app.register_blueprint(user_bp, url_prefix='/user')
-
-from app.plan import bp as plan_bp
-app.register_blueprint(plan_bp, url_prefix='/plan')
-
-from app.currency_converter import bp as currency_converter_bp
-app.register_blueprint(currency_converter_bp, url_prefix='/currency_converter')
-
-from app.expenditure import bp as expenditure_bp
-app.register_blueprint(expenditure_bp, url_prefix='/expenditure')
-
-
-
-from app import routes,models
-'''
-
-db = SQLAlchemy()
-migrate = Migrate()
-login = LoginManager()
-login.login_view = 'user.login'
-
+from app.currency_converter.forms import CurrencyInputForm
+from app.currency_converter.currency import rate_of_exchange
+from flask import render_template, redirect, url_for, flash, request
+from app.models import db
+from app.user.models import User
+from app.user.views import bp as user_blueprint
+from app.plan.views import bp as plan_blueprint
+from app.currency_converter.views import bp as currency_converter_bp
+from app.expenditure.views import bp as expenditure_blueprint
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-
     db.init_app(app)
+    migrate = Migrate(app, db)
     migrate.init_app(app, db)
-    login.init_app(app) 
-        
-    from app.user import bp as user_bp
-    app.register_blueprint(user_bp, url_prefix='/user')
+    login_manager = LoginManager()
+    login_manager.init_app(app)
+    login_manager.login_view = 'user.login'
+    app.register_blueprint(user_blueprint)
+    app.register_blueprint(plan_blueprint)
+    app.register_blueprint(currency_converter_bp)
+    app.register_blueprint(expenditure_blueprint)
 
-    from app.plan import bp as plan_bp
-    app.register_blueprint(plan_bp, url_prefix='/plan')
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(user_id)
 
-    from app.currency_converter import bp as currency_converter_bp
-    app.register_blueprint(currency_converter_bp, url_prefix='/currency_converter')
+    @app.route('/', methods=['GET', 'POST'])
+    def index():
+        form = CurrencyInputForm()
+        page_title = 'Курс валюты на сегодня:'
+        currency_data = rate_of_exchange(
+            'EUR')
+        if form.validate_on_submit():
 
-    from app.expenditure import bp as expenditure_bp
-    app.register_blueprint(expenditure_bp, url_prefix='/expenditure')
+            return redirect(
+                url_for(
+                    'currency_converter/show_currency',
+                    code=form.currency.data))
 
+        return render_template(
+            'index.html',
+            title='Home',
+            page_title=page_title,
+            name=currency_data['name_of_currency'],
+            rate=currency_data['rate'],
+            form=form)
     
 
     return app
-from app import  models,routes
-'''

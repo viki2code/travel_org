@@ -1,10 +1,11 @@
-from app import app, db
+from app.models import db
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_user, logout_user, login_required
 from app.user.forms import LoginForm
-from app.models import User
-from app.user import bp
+from app.user.models import User
+from flask import Blueprint
 
+bp = Blueprint('user', __name__, url_prefix='/user')
 
 @bp.route('/login')
 def login():

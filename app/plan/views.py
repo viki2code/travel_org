@@ -1,10 +1,12 @@
-from app import app, db
+from app.models import db
 from datetime import datetime
 from flask import render_template, redirect, url_for, flash, request
 from app.plan.forms import CountrySelectForm, AddTravelPlan, EditTravelPlan
-from app.models import Travel_plan, Country, Expenditures
-from app.plan import bp
+from app.plan.models import Travel_plan, Country
 from app.plan.country import all_countries
+from flask import Blueprint
+
+bp = Blueprint('plan', __name__,url_prefix='/plan')
 '''
 @bp.route('/travel_plan', methods=['GET', 'POST'])
 def travel_plan():
@@ -28,6 +30,9 @@ def travel_plan():
         title=page_title,
         form=form)
 '''
+
+
+
 @bp.route('/add_travel_plan', methods=['GET', 'POST'])
 def add_travel_plan():
     form = AddTravelPlan()

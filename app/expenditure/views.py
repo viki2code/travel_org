@@ -1,10 +1,13 @@
-from app import app, db
+from app import db
 from datetime import datetime
 from flask import render_template, redirect, url_for, flash, request
 from app.expenditure.forms import AddExpanditureForm, EditExpanditureForm
-from app.models import Travel_plan, Expenditures, Country, User
+from app.expenditure.models import  Expenditures
+from app.plan.models import Travel_plan, Country
 from flask_login import current_user, login_user, logout_user, login_required
-from app.expenditure import bp
+from flask import Blueprint
+
+bp = Blueprint('expenditure', __name__, url_prefix='/expenditure')
 
 
 @bp.route('/add_expenditure/<travel_plan_id>', methods=['GET', 'POST'])
