@@ -1,5 +1,14 @@
 <!doctype html>
 <html lang="ru">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+    $( function() {
+    $( ".datepicker" ).datepicker({dateFormat: 'dd/mm/yy'});
+    } );
+    </script>
   <head>
     
     <title>{{page_title}}</title>
@@ -11,16 +20,25 @@
             </h1>
             
             <form action="" method="post" novalidate>
-              {{ form.hidden_tag() }}
-              <p>
-                  {{ form.country_field.label }}<br>
-                  {{ form.country_field }}<br>
-              </p>
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.country_field.label }}<br>
+                    {{ form.country_field }}<br>
+                </p>
+                <p>
+                       
+                   <div >
+                        
+                        {{ form.date_start (class='datepicker') }}<br>
+                    </div>
+                        {{ form.date_end (class='datepicker')}}<br>
+                </p>
              
-             
+                
               <p>{{ form.submit() }}</p>
              
             </form>
+            
             <table class="table">
                 <thead>
                   <tr>
@@ -30,8 +48,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  
-                  
+                    
                     <tbody>
                         {% for expenditure in expenditures %}
                            <tr>
@@ -42,7 +59,7 @@
                            </tr>
                         {% endfor %}
                      </tbody>
-                  
+                   
                 </tbody>
               </table>
         </div>

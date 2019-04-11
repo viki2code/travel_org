@@ -12,7 +12,7 @@ class CountrySelectForm(FlaskForm):
     date_start = DateField('Дата начала поездки: ', format='%d/%m/%Y')
     date_end = DateField('Дата окончания поездки: ', format='%d/%m/%Y')
     submit = SubmitField('Найти план')
-    submitadd = SubmitField('Добавить')
+   
 
 
 class AddTravelPlan(FlaskForm):

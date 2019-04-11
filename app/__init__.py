@@ -11,7 +11,8 @@ from app.user.views import bp as user_blueprint
 from app.plan.views import bp as plan_blueprint
 from app.currency_converter.views import bp as currency_converter_bp
 from app.expenditure.views import bp as expenditure_blueprint
-
+from flask import  flash
+import requests
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -34,8 +35,21 @@ def create_app():
     def index():
         form = CurrencyInputForm()
         page_title = 'Курс валюты на сегодня:'
-        currency_data = rate_of_exchange(
-            'EUR')
+        name_of_currency = None
+        rate = None
+
+        #try:
+        #    currency_data = rate_of_exchange(
+         #   'EUR')
+          #  name_of_curency=currency_data['name_of_currency'],
+          #  rate=currency_data['rate']
+       # except (requests.RequestException, TypeError):
+       #     flash('Данных не найдено')
+        #    continue
+        #except (requests.RequestException, ValueError):
+        #    flash('Отсутствие связи')
+        #    return False
+        
         if form.validate_on_submit():
 
             return redirect(
@@ -47,8 +61,8 @@ def create_app():
             'index.html',
             title='Home',
             page_title=page_title,
-            name=currency_data['name_of_currency'],
-            rate=currency_data['rate'],
+            name=name_of_currency,
+            rate=rate,
             form=form)
     
 

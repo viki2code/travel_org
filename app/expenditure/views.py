@@ -13,11 +13,11 @@ bp = Blueprint('expenditure', __name__, url_prefix='/expenditure')
 @bp.route('/add_expenditure/<travel_plan_id>', methods=['GET', 'POST'])
 def add_expenditure(travel_plan_id):
     form = AddExpanditureForm()
-    travel_plan = Travel_plan.query.get(travel_plan_id)
+    travel_plan = Travel_plan.query.filter_by(id=travel_plan_id).first_or_404()
     page_title = 'Добавить статьи затрат для путешествия в страну '
     country_name = Country.query.get(travel_plan.country_id).name
-    date_start = travel_plan.date_in
-    date_end = travel_plan.date_out
+    date_start = travel_plan.date_start
+    date_end = travel_plan.date_end
     new_expenditure = Expenditures(
         travel_plan_id=travel_plan_id,
         text=form.name.data,
