@@ -35,20 +35,17 @@ def create_app():
     def index():
         form = CurrencyInputForm()
         page_title = 'Курс валюты на сегодня:'
-        name_of_currency = None
-        rate = None
+        name_of_currency = ''
+        rate = ''
 
-        #try:
-        #    currency_data = rate_of_exchange(
-         #   'EUR')
-          #  name_of_curency=currency_data['name_of_currency'],
-          #  rate=currency_data['rate']
-       # except (requests.RequestException, TypeError):
-       #     flash('Данных не найдено')
-        #    continue
-        #except (requests.RequestException, ValueError):
-        #    flash('Отсутствие связи')
-        #    return False
+        try:
+            currency_data = rate_of_exchange(
+            'EUR')
+            name_of_curency=currency_data['name_of_currency'],
+            rate=currency_data['rate']
+        except (requests.RequestException, TypeError,ValueError):
+            flash('Отсутствие связи')
+            
         
         if form.validate_on_submit():
 

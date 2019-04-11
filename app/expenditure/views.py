@@ -13,8 +13,12 @@ bp = Blueprint('expenditure', __name__, url_prefix='/expenditure')
 @bp.route('/add_expenditure/<travel_plan_id>', methods=['GET', 'POST'])
 def add_expenditure(travel_plan_id):
     form = AddExpanditureForm()
-    travel_plan = Travel_plan.query.filter_by(id=travel_plan_id).first_or_404()
+    travel_plan = Travel_plan.query.get(travel_plan_id)
     page_title = 'Добавить статьи затрат для путешествия в страну '
+    if not travel_plan:
+        flash('Путешествие не найдено')
+        return redirect(url_for('index'))
+
     country_name = Country.query.get(travel_plan.country_id).name
     date_start = travel_plan.date_start
     date_end = travel_plan.date_end
@@ -46,9 +50,8 @@ def add_expenditure(travel_plan_id):
 def edit_expenditure(expenditure_id):
     form = EditExpanditureForm()
     expenditure = Expenditures.query.get(expenditure_id)
-    print(expenditure)
 
-    if expenditure is None:
+    if not expenditure:
 
         flash('Данных не найдено')
         return redirect(url_for('index'))
@@ -89,8 +92,8 @@ def edit_expenditure(expenditure_id):
 @bp.route('/delete_expenditure/<expenditure_id>')
 def delete(expenditure_id):
     expenditure = Expenditures.query.get(expenditure_id)
-    if expenditure is None:
-        flash('expenditure is not found.')
+    if not expenditure:
+        flash('Данных не найдено')
         return redirect(url_for('index'))
     db.session.delete(expenditure)
     db.session.commit()

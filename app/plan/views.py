@@ -39,12 +39,13 @@ def add_travel_plan():
     form = AddTravelPlan()
     page_title = 'Добавить план'
     form.country_field.query_factory = all_countries
-    travel_plan = Travel_plan(
-        country=form.country_field.data,
-        date_start=form.date_start.data,
-        date_end=form.date_end.data)
+    
 
     if form.validate_on_submit():
+        travel_plan = Travel_plan(
+        country_id=form.country_field.data.id,
+        date_start=form.date_start.data,
+        date_end=form.date_end.data)
         db.session.add(travel_plan)
         db.session.commit()
         flash('Вы добавили план')
@@ -59,8 +60,8 @@ def add_travel_plan():
 def edit_travel_plan(travel_plan_id):
     form = EditTravelPlan()
     travel_plan = Travel_plan.query.get(travel_plan_id)
-    if travel_plan is None:
-        flash('План не найден')
+    if not travel_plan:
+        flash('Путешествие не найдено')
         return redirect(url_for('index'))
     if form.validate_on_submit():
         travel_plan.date_start = form.date_start.data
@@ -96,10 +97,10 @@ def edit_travel_plan(travel_plan_id):
 @bp.route('/delete_travel_plan/<travel_plan_id>')
 def delete(travel_plan_id):
     travel_plan = Travel_plan.query.get(travel_plan_id)
-    if travel_plan is None:
+    if not travel_plan:
         flash('Данные не найдены')
         return redirect(url_for('index'))
     db.session.delete(travel_plan)
     db.session.commit()
-    flash('Пункт плана удален')
+    flash('План путешествия удален')
     return redirect(url_for('index'))
