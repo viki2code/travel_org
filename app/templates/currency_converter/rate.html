@@ -1,3 +1,54 @@
-   
-    <h2>Курс {{name}} {{rate}}</h2>
-   
+{% extends "base.html" %}
+{% block content %}
+      <div class = 'container'>
+            <h1>
+                Органайзер путешественника
+            </h1>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="alert alert-warning" role="alert">
+                    {% for message in messages %}
+                        {{ message }}<br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% endwith %}
+            <div class = 'row'>
+                
+                <div class="col-4">
+                   
+                    <form action="" method="post" novalidate>
+                        {{ form.hidden_tag() }}
+                       
+                       <p>
+                           Рубли:
+                           {{form.ruble}}
+                       </p>
+                       <p>
+                        <p> 
+
+
+
+                                {{ form.currency_convert.label }}<br>
+                                {{ form.currency_convert }}<br>
+                        </p>
+                         <p>           
+                                {{ form.rate_convert }}<br>
+                        </p>
+
+                        <p>
+
+                            {{ form.currency.label }}<br>
+                            {{ form.currency }}<br>
+                        </p>
+                            <p>
+                                    {{ form.rate }}<br>
+                                </p>
+                        <p>{{ form.submit() }}</p>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        
+{% endblock %}

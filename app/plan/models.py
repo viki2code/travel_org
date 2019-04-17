@@ -16,10 +16,12 @@ class Country(db.Model):
 class Travel_plan(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     country_id = db.Column(db.Integer, db.ForeignKey('country.id'))
-    date_start = db.Column(db.DateTime, index=True, nullable=False)
-    date_end = db.Column(db.DateTime, index=True)
+    date_start = db.Column(db.Date, index=True, nullable=False)
+    date_end = db.Column(db.Date, index=True)
     text = db.Column(db.Text, nullable=True)
-    
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('user.id', ondelete='CASCADE'))
 
     def __repr__(self):
         return '<TravelPlan {} {} {} {}>'.format(

@@ -2,17 +2,34 @@ from app.models import db
 from datetime import datetime
 from flask import render_template
 from app.currency_converter.forms import CurrencyInputForm
-from app.currency_converter.currency import rate_of_exchange
+from app.currency_converter.currency import rate_of_exchange,all_currency,notNone
+from flask import render_template, redirect, url_for, flash, request
 from flask import Blueprint
 
 bp = Blueprint('currency_converter', __name__, url_prefix='/currency_converter')
 
-@bp.route('/currency/<code>', methods=['GET', 'POST'])
+@bp.route('/show_currency/<code>', methods=['GET', 'POST'])
 def show_currency(code):
-    currency_data = rate_of_exchange(
-        code)
+    form = CurrencyInputForm()
+    page_title = 'Курс валюты на сегодня:'
+    currency_data = rate_of_exchange(code)    
+    form.currency.default = code  
+    #form.process()
+
+    form.currency.choices = all_currency()
+    form.currency_convert.choices = all_currency(['EUR','USD'])
+
+    form.rate.data = float(notNone(form.ruble.data,1)) * float(currency_data['rate'].replace(',','.'))
+    form.rate_convert.data = float(notNone(form.ruble.data,1)) *float(currency_data['rate'].replace(',','.'))
+    if form.validate_on_submit():
+        
+        return redirect(
+            url_for('currency_converter.show_currency',code=form.currency.data))
+    
+    print(type(form.rate.data))
+    print(form.errors)
     return render_template(
-        'rate.html',
-        title='Home',
+        'currency_converter/rate.html',
+        title=page_title,
         name=currency_data['name_of_currency'],
-        rate=currency_data['rate'])
+        form=form)

@@ -20,10 +20,13 @@
                     <form action="" method="post" novalidate>
                         {{ form.hidden_tag() }}
                         <p>
-                            {{ form.currency.label }}<br>
-                            {{ form.currency(size=32) }}<br>
-                        </p>
-                       
+                                {{ form.currency.label }}<br>
+                                {{ form.currency }}<br>
+                            </p>
+                            <p>
+                                    {{ form.rate.label }}<br>
+                                    {{ form.rate }}<br>
+                                </p>
                         <p>{{ form.submit() }}</p>
                     </form>
                 </div>

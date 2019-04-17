@@ -1,8 +1,8 @@
 from wtforms.validators import DataRequired,Required, InputRequired
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, DateField, DecimalField
+from wtforms import SubmitField, SelectField
 
 class CurrencyInputForm(FlaskForm):
-    currency = StringField('Код валюты: ', validators= [DataRequired()])
+    currency = SelectField('Код валюты: ')
     submit = SubmitField('Курс валюты')
 

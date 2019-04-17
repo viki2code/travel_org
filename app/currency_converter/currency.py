@@ -7,10 +7,12 @@ def find_element(root, code_valute):
     for valute in root.iter('Valute'):
         if valute.find('CharCode').text.upper() == code_valute.upper():
             currency_data = {'name_of_currency': valute.find('Name').text,
-                             'rate': valute.find('Value').text}
+                             'rate': valute.find('Value').text,
+                             'currency_code':valute.find('CharCode').text}
             return currency_data
     currency_data = {'name_of_currency': 'Указанная валюта не найдена',
-                     'rate': ''}
+                     'rate': '',
+                     'currency_code':''}
     return currency_data
 
 
@@ -23,13 +25,13 @@ def get_currency(date_rate=datetime.now()):
     return root
 
 
-def all_currency(date_rate=datetime.now()):
+def all_currency(currency_list=[],date_rate=datetime.now()):
     currencies_name = []
     root = get_currency(date_rate)
     for idx, valute in enumerate(root.iter('Valute')):
-    
-        valute_tuple = (idx, valute.find('CharCode').text.upper())
-        currencies_name.append(valute_tuple)
+        if not currency_list or valute.find('CharCode').text.upper() in currency_list:
+            valute_tuple = (valute.find('CharCode').text.upper(), valute.find('Name').text.upper())
+            currencies_name.append(valute_tuple)
 
     return currencies_name
 
@@ -46,3 +48,8 @@ def rate_of_exchange(
         
         return None
     
+def notNone(rate,value):
+    if rate is None:
+        return value
+    else:
+        return rate

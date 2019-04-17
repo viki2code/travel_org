@@ -10,6 +10,7 @@ from app.user.models import User
 from app.user.views import bp as user_blueprint
 from app.plan.views import bp as plan_blueprint
 from app.currency_converter.views import bp as currency_converter_bp
+from app.currency_converter.currency import all_currency,rate_of_exchange
 from app.expenditure.views import bp as expenditure_blueprint
 from flask import  flash
 import requests
@@ -31,9 +32,16 @@ def create_app():
     def load_user(user_id):
         return User.query.get(user_id)
 
-    @app.route('/', methods=['GET', 'POST'])
+
+
+
+
+
+    @app.route('/', methods=['GET', 'POST','PUT'])
     def index():
         form = CurrencyInputForm()
+        form.currency.choices = all_currency()
+        
         page_title = 'Курс валюты на сегодня:'
         name_of_currency = ''
         rate = ''
@@ -48,12 +56,19 @@ def create_app():
             
         
         if form.validate_on_submit():
-
+            print(form.currency.data)
+            currency_data = rate_of_exchange(
+                form.currency.data)
+           
             return redirect(
-                url_for(
-                    'currency_converter/show_currency',
-                    code=form.currency.data))
+                url_for('index'))
+        elif request.method == 'PUT':
+            form.rate.data = currency_data['rate']
+            print(form.rate.data)
+            return redirect(
+                url_for('index'))
 
+        print(form.errors)
         return render_template(
             'index.html',
             title='Home',

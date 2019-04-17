@@ -10,6 +10,35 @@ from flask import Blueprint
 bp = Blueprint('expenditure', __name__, url_prefix='/expenditure')
 
 
+@bp.route('/expenditures/<travel_plan_id>', methods=['GET', 'POST'])
+def expenditures(travel_plan_id):
+    form = AddExpanditureForm()
+    travel_plan = Travel_plan.query.get(travel_plan_id)
+    page_title = 'Статьи затрат для путешествия:'
+    if not travel_plan:
+        flash('Путешествие не найдено')
+        return redirect(url_for('index'))
+
+    country_name = Country.query.get(travel_plan.country_id).name
+    date_start = travel_plan.date_start
+    date_end = travel_plan.date_end
+    expenditures = []
+
+    if travel_plan:
+        expenditures = Expenditures.query.filter_by(
+            travel_plan_id=travel_plan.id).all()    
+    
+    return render_template(
+        'expenditure/expenditures.html',
+        page_title=page_title,
+        country_name=country_name,
+        date_start=date_start,
+        date_end=date_end,
+        travel_plan_id=travel_plan.id,
+        expenditures=expenditures,
+        form=form)
+
+
 @bp.route('/add_expenditure/<travel_plan_id>', methods=['GET', 'POST'])
 def add_expenditure(travel_plan_id):
     form = AddExpanditureForm()
@@ -34,7 +63,7 @@ def add_expenditure(travel_plan_id):
         flash('Вы добавили статью затрат')
         return redirect(
             url_for(
-                'expenditure.add_expenditure',
+                'expenditure.expenditures',
                 travel_plan_id=travel_plan_id))
 
     return render_template(

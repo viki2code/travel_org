@@ -1,5 +1,13 @@
 <!doctype html>
 <html lang="ru">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+    $( function() {
+    $( ".datepicker" ).datepicker({dateFormat: 'dd/mm/yy'});
+    } );
+    </script>
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -7,39 +15,49 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    {% block content %}
     <title>{{page_title}}</title>
-    </head>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-      <div class="alert alert-warning" role="alert">
-          {% for message in messages %}
-              {{ message }}<br>
-          {% endfor %}
-      </div>
-      {% endif %}
-    {% endwith %}
-    <form action="" method="POST" novalidate>
-        {{ form.hidden_tag() }}
-        <div class='form-group'>
-            {{ form.name.label }}
-            {{ form.name(size=32) }}
+  </head>
+   
+  
+  <body>
+      
+      <div class = 'container'>
+            <h3><a href="{{ url_for('expenditure.add_expenditure',travel_plan_id=travel_plan_id) }}"> 
+                Добавить статьи затрат
+                </a>
+            </h3>
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Статья затрат</th>
+                    <th scope="col">План</th>
+                    <th scope="col">Факт</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    
+                    <tbody>
+                        {% for expenditure in expenditures %}
+                           <tr>
+                              
+                              <td><a href="{{ url_for('expenditure.edit_expenditure',expenditure_id=expenditure.id) }}"> 
+                                {{ expenditure.text }}</a></td>
+                              <td>{{ expenditure.sum_plan }}</td>
+                              <td>{{ expenditure.sum_real }}</td>
+                              <td><a href="{{ url_for('expenditure.edit_expenditure',expenditure_id=expenditure.id) }}"> 
+                                  Удалить</a></td>
+                           </tr>
+                        {% endfor %}
+                     </tbody>
+                    
+                   
+                </tbody>
+              </table>
         </div>
-        <div class='form-group'>
-            {{ form.sum_plan.label }}
-            {{ form.sum_plan(size=10) }}
-            {{ form.sum_fact.label }}
-            {{ form.sum_plan(size=10) }}
-        </div>
-       
         
-        <p>{{ form.submit() }}</p>
-    </form>
-    {% endblock %}
-   <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+           
+        </form>
+   
   </body>
 </html>
