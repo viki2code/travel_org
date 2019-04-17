@@ -8,23 +8,27 @@ from flask import Blueprint
 
 bp = Blueprint('currency_converter', __name__, url_prefix='/currency_converter')
 
-@bp.route('/show_currency/<code>', methods=['GET', 'POST'])
-def show_currency(code):
+@bp.route('/show_currency/', methods=['GET', 'POST','PUT'])
+def show_currency():
     form = CurrencyInputForm()
     page_title = 'Курс валюты на сегодня:'
+    code = 'EUR'
     currency_data = rate_of_exchange(code)    
     form.currency.default = code  
-    #form.process()
-
+    form.process()
     form.currency.choices = all_currency()
+    
+    currency_convert_data = rate_of_exchange(code)    
+    form.currency_convert.default = code  
+    form.process()
     form.currency_convert.choices = all_currency(['EUR','USD'])
 
     form.rate.data = float(notNone(form.ruble.data,1)) * float(currency_data['rate'].replace(',','.'))
     form.rate_convert.data = float(notNone(form.ruble.data,1)) *float(currency_data['rate'].replace(',','.'))
     if form.validate_on_submit():
-        
+        #???
         return redirect(
-            url_for('currency_converter.show_currency',code=form.currency.data))
+            url_for('currency_converter.show_currency'))
     
     print(type(form.rate.data))
     print(form.errors)
