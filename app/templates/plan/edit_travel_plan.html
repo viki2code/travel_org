@@ -1,60 +1,53 @@
 <!doctype html>
 <html lang="ru">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+    $( function() {
+    $( ".datepicker" ).datepicker({dateFormat: 'dd/mm/yy'});
+    } );
+    </script>
   <head>
-    
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>{{page_title}}</title>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <div class="alert alert-warning" role="alert">
-        {% for message in messages %}
-            {{ message }}<br>
-        {% endfor %}
-    </div>
-    {% endif %}
-    {% endwith %}
- 
   </head>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-  $( function() {
-  $( ".datepicker" ).datepicker({dateFormat: 'dd/mm/yy'});
-  } );
-  </script>
+   
+  
   <body>
-       
-      <div class = 'container'>
-            
-            <form action="" method="POST" novalidate>
+    
+      {% include 'menu.html' %}
+      <div class = 'container'>         
+         <form action="" method="POST" novalidate>
 
               {{ form.hidden_tag() }}
                 <p>
                         <p>
-                                {{ form.name.label }}<br>
-                                {{ form.name }}<br>
+                              Страна: {{ country_name }}<br>
                         </p>
-                        <p>
+                  
+                        <div >
+                            Дата начала поездки
+                            <br>
+                            {{ form.date_start (class='datepicker') }}
+                        </div>
+                        <br>
+                        <div>
+                            Дата окончания поездки
+                            <br>
+                            {{ form.date_end (class='datepicker')}}
+                        </div>
+                        <div>
                             {{ form.text.label }}<br>
                             {{ form.text }}<br>
-                        </p>
-                        <p>
-                               
-                           <div >
-                                
-                                {{ form.date_start (class='datepicker') }}<br>
-                            </div>
-                            <div>
-                             {{ form.date_end (class='datepicker')}}<br>
-                             </div>
-                        </p>
+                        </div>
+                        
                 </p>
-                <p>
-                       
-                  
-                </p>
-             
                 
               <p>{{ form.submit() }}</p>
             </form>

@@ -16,3 +16,9 @@ class EditExpanditureForm(FlaskForm):
     sum_plan = DecimalField('Плановые затраты')
     sum_real = DecimalField('Фактические затраты')
     submit = SubmitField('Изменить')
+   
+ 
+class DeleteExpanditureForm(FlaskForm):
+    
+    submit = SubmitField('Да')
+    cancel = SubmitField('Отмена')

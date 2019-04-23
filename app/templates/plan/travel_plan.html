@@ -20,39 +20,42 @@
    
   
   <body>
-      
+      {% include 'menu.html' %}
       <div class = 'container'>
-            <h1>
-                План затрат на путешествие {{ country_name }}
-            </h1>
+            <h2>
+               {{page_title}}
+            </h2>
             
             <form action="" method="post" novalidate>
                 {{ form.hidden_tag() }}
-                <p>
-                    {{ form.country_field.label }}<br>
-                    {{ form.country_field }}<br>
-                </p>
-                <p>
-                       
-                   <div >
-                        
-                        {{ form.date_start (class='datepicker') }}<br>
-                    </div>
-                        {{ form.date_end (class='datepicker')}}<br>
-                </p>
-             
-                
-              <p>{{ form.submit() }}</p>
+                <div>
+                    {{ form.country_field.label }}
+                    {{ form.country_field }}
+                </div >
+                <br>  
+                <div >
+                    Дата начала путешествия
+                    <br>
+                    {{ form.date_start (class='datepicker') }}
+                </div>
+                <br>
+                <div>
+                    Дата окончания путешествия
+                    <br>
+                    {{ form.date_end (class='datepicker')}}
+                </div>
+               <br>        
+              <div>{{ form.submit() }}</div>
              
             </form>
-            
+            <br>
             <table class="table">
                 <thead>
                   <tr>
                     <th scope="col">Страна</th>
                     <th scope="col">Дата выезда</th>
                     <th scope="col">Вата возвращения</th>
-                    <th scope="col">Статьи затрат</th>
+                    
                   </tr>
                 </thead>
                 <tbody>
@@ -62,35 +65,22 @@
                         {% for travel_plan in travel_plans_list %}
                            <tr >
                              
-                              <td > <a href="{{ url_for('plan.edit_travel_plan',travel_plan_id=travel_plan[3]) }}"> 
+                              <td > <a href="{{ url_for('plan.travel_plan_info',travel_plan_id=travel_plan[3]) }}"> 
                                
                                  {{ travel_plan[0] }}</a></td>
                               <td>{{ travel_plan[1] }}</td>
                               <td>{{ travel_plan[2] }}</td> 
-                              <td> <a href="{{ url_for('expenditure.expenditures',travel_plan_id=travel_plan[3]) }}"> 
-                                Простмотр</a></td>
+                              
                            </tr>
                         {% endfor %}
                      </tbody>
-                    <!--
-                    <tbody>
-                        {% for expenditure in expenditures %}
-                           <tr>
-                              <td>{{ expenditure.text }}</td>
-                              <td>{{ expenditure.sum_plan }}</td>
-                              <td>{{ expenditure.sum_real }}</td>
-                             
-                           </tr>
-                        {% endfor %}
-                     </tbody>
-                    -->
+                   
                    
                 </tbody>
               </table>
         </div>
         
-           
-        </form>
+       
    
   </body>
 </html>

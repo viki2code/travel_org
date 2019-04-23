@@ -18,9 +18,7 @@ class NullableFloatField(FloatField):
                 raise ValueError(self.gettext('Not a valid date value'))
 class CurrencyInputForm(FlaskForm):
     
-    ruble = NullableFloatField(FloatField('Рубли'))
-    currency_convert = SelectField('Конвертируемая валюта: ')
-    currency = SelectField('Валюта страны: ')
-    rate_convert = NullableFloatField(FloatField('Конвертируемая'))
-    rate = NullableFloatField(FloatField('Значение'))
-    submit = SubmitField('Курс валюты')
+    rate = FloatField('Рубли')
+    currency = SelectField('Конвертируемая валюта: ')
+    currency_convert = SelectField('Валюта страны: ')
+    submit = SubmitField('Конвертировать')

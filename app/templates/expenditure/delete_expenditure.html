@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+      
+        <form action="" method="POST" novalidate>
+            {{ form.hidden_tag() }}
+           
+            <div class='form-group'>
+                    Вы действительно хотите удалить статью затрат: {{name}}
+            </div>
+            
+          
+            
+            <p>{{ form.submit() }} {{form.cancel}} </p>
+        </form>
+      
+{% endblock %}
+  

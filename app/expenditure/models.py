@@ -1,7 +1,6 @@
-from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
 from app.models import db
-from datetime import datetime
+from sqlalchemy.orm import relationship
+
 
 class Expenditures(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -15,6 +14,7 @@ class Expenditures(db.Model):
         'Expand_expenditures',
         backref='Expenditures',
         lazy='dynamic')
+    travel_plan = relationship('Travel_plan',backref='Expenditures')
     def __repr__(self):
         return '<Expenditure {}>'.format(self.text)
 

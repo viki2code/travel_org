@@ -39,7 +39,9 @@ def create_app():
 
     @app.route('/', methods=['GET', 'POST','PUT'])
     def index():
+        
         form = CurrencyInputForm()
+        '''
         form.currency.choices = all_currency()
         
         page_title = 'Курс валюты на сегодня:'
@@ -68,13 +70,12 @@ def create_app():
             return redirect(
                 url_for('index'))
 
-        print(form.errors)
+        print(form.errors)'''
         return render_template(
             'index.html',
-            title='Home',
-            page_title=page_title,
-            name=name_of_currency,
-            rate=rate,
+            page_title='Органайзер путешественника',
+            name='name_of_currency',
+            rate='rate',
             form=form)
     
 

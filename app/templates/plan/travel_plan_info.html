@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+       
+               
+                        
+                  
+                        <div >
+                            Страна: {{ country_name }}<br>
+                            Дата начала путешествия: {{date_start}}<br>
+                            Дата окончания путешествия: {{date_end}}<br>
+                           {{info}}<br>
+                        </div>
+                      
+                        
+               
+                <div>
+                        <form action="" method="POST" novalidate>
+                                {{ form.hidden_tag() }}
+                               
+                                
+                              
+                                
+                                <p>{{ form.edit_plan }} {{form.add_expanditure}} </p>
+                        </form>
+                </div>
+                </p>
+                <div>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Статья затрат</th>
+                            <th scope="col">План</th>
+                            <th scope="col">Факт</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tbody>
+                                {% for expenditure in expenditures %}
+                                <tr>
+                                    
+                                    <td><a href="{{ url_for('expenditure.edit_expenditure',expenditure_id=expenditure.id) }}"> 
+                                        {{ expenditure.text }}</a></td>
+                                    <td>{{ expenditure.sum_plan }}</td>
+                                    <td>{{ expenditure.sum_real }}</td>
+                                    <td><a href="{{ url_for('expenditure.delete_expenditure',expenditure_id=expenditure.id) }}"> 
+                                        Удалить</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            
+                        
+                        </tbody>
+                    </table>
+                
+        
+
+{% endblock %}
