@@ -7,15 +7,15 @@ from app.user.models import User
 class LoginForm(FlaskForm):
     username = StringField('Имя пользователя', validators=[DataRequired()], render_kw={'class': 'form-control'})
     password = PasswordField('Пароль', validators=[DataRequired()], render_kw={'class': 'form-control'})
-    remember_me = BooleanField('Remember Me')
-    submit = SubmitField('Sign In', render_kw={'class': 'btn btn-primary'} )
+    remember_me = BooleanField('Запомнить меня')
+    submit = SubmitField('Войти', render_kw={'class': 'btn btn-lg btn-secondary btn-block'} )
 
 class RegistrationForm(FlaskForm):
     username = StringField('Имя пользователя', validators=[DataRequired()], render_kw={"class": "form-control"})
     email = StringField('Email', validators=[DataRequired(), Email()], render_kw={"class": "form-control"})
     password = PasswordField('Пароль', validators=[DataRequired()], render_kw={"class": "form-control"})
     password2 = PasswordField('Повторите пароль', validators=[DataRequired(),EqualTo('password')], render_kw={"class": "form-control"})
-    submit = SubmitField('Отправить!', render_kw={"class": "btn btn-primary"})
+    submit = SubmitField('Отправить', render_kw={"class": "btn btn-lg btn-secondary btn-block"})
     
     
     def validate_username(self, username):

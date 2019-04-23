@@ -116,7 +116,7 @@ def add_travel_plan():
         return redirect(url_for('index'))
    
     form = AddTravelPlan()
-    page_title = 'Добавить план'
+    page_title = 'Добавить путешествие'
     form.country_field.query_factory = all_countries
     
 
@@ -131,10 +131,11 @@ def add_travel_plan():
         db.session.add(travel_plan)
         db.session.commit()
         flash('Вы добавили план')
-        return redirect(url_for('plan.travel_plan_info'))
+        return redirect(url_for('plan.travel_plan_info',travel_plan_id = travel_plan.id))
 
     return render_template(
         'plan/add_travel_plan.html',
+        page_title=page_title,
         form=form)
 
 
@@ -144,7 +145,7 @@ def edit_travel_plan(travel_plan_id):
     if not current_user.is_authenticated:
         return redirect(url_for('index'))
    
-    page_title = 'Редактировать'
+    page_title = 'Изменить'
     form = EditTravelPlan()
     travel_plan = Travel_plan.query.get(travel_plan_id)
     country_name = Country.query.get(travel_plan.country_id).name

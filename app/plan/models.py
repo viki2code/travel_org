@@ -2,6 +2,7 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.models import db
 from datetime import datetime
+from sqlalchemy.orm import relationship
 
 class Country(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -22,7 +23,7 @@ class Travel_plan(db.Model):
     user_id = db.Column(
         db.Integer,
         db.ForeignKey('user.id', ondelete='CASCADE'))
-
+    country = relationship('Country',backref='Travel_plan')
     def __repr__(self):
         return '<TravelPlan {} {} {} {}>'.format(
             self.date_start, self.date_end, self.text,self.country_id)

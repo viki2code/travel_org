@@ -17,22 +17,22 @@ class CountrySelectForm(FlaskForm):
 
 
 class AddTravelPlan(FlaskForm):
-    country_field = QuerySelectField("Страна: ",allow_blank=True,get_label='name')
-    date_start = DateField('Дата начала поездки: ', format='%d/%m/%Y', validators=[Optional()])
-    date_end = DateField('Дата окончания поездки: ', format='%d/%m/%Y', validators=[Optional()])
-    text = StringField('Описание:')
-    currency = QuerySelectField("Валюта: ",allow_blank=True,get_label='name')
-    submit = SubmitField('Добавить')
+    country_field = QuerySelectField("Страна ",allow_blank=True,get_label='name',render_kw={'class':'form-control'})
+    date_start = DateField('Дата начала поездки ', format='%d/%m/%Y', validators=[Optional()],render_kw={'class':'form-control'})
+    date_end = DateField('Дата окончания поездки ', format='%d/%m/%Y', validators=[Optional()],render_kw={'class':'form-control'})
+    text = StringField('Описание',render_kw={'class':'form-control'})
+    currency = QuerySelectField("Валюта ",allow_blank=True,get_label='name')
+    submit = SubmitField('Добавить',render_kw={'class': 'btn btn-lg btn-secondary btn-block'})
 
 class EditTravelPlan(FlaskForm):
-    text = StringField('Описание:')
-    date_start = DateField('Дата начала поездки: ', format='%d/%m/%Y')
-    date_end = DateField('Дата окончания поездки: ', format='%d/%m/%Y')
-    submit = SubmitField('Изменить')
+    text = StringField('Описание',render_kw={'class':'form-control'})
+    date_start = DateField('Дата начала поездки ', format='%d/%m/%Y', validators=[Optional()],render_kw={'class':'form-control'})
+    date_end = DateField('Дата окончания поездки ', format='%d/%m/%Y', validators=[Optional()],render_kw={'class':'form-control'})
+    submit = SubmitField('Сохранить',render_kw={'class': 'btn btn-lg btn-secondary btn-block'})
 
 class ChangeTravelPlan(FlaskForm):
-    edit_plan = SubmitField('Изменить')
-    add_expanditure = SubmitField('Добавить статьи затрат')
+    edit_plan = SubmitField('Изменить',render_kw={'class': 'btn btn-lg btn-secondary btn-block'})
+    add_expanditure = SubmitField('Добавить статьи затрат',render_kw={'class': 'btn btn-lg btn-secondary btn-block'})
 
     
 

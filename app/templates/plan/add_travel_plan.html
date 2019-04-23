@@ -1,39 +1,34 @@
 {% extends "base.html" %}
 {% block content %}
        
-      <div class = 'container'>
-            
-            <form action="" method="post" novalidate>
+<div class="row">
+    <div class="col-md-4">       
+        <form action="" method="post" novalidate>
 
-              {{ form.hidden_tag() }}
-                <p>
-                    {{ form.country_field.label }}<br>
-                    {{ form.country_field }}<br>
-                </p>
-                <p>
-                    {{ form.text.label }}<br>
-                    {{ form.text }}<br>
-                </p>
-                <p>
-                       
-                   <div >
-                        {{form.date_start.label}}
-                        {{ form.date_start (class='datepicker') }}<br>
-                    </div>
-                    <div class="datepicker">
-                     {{form.date_end.label}}
-                     {{ form.date_end }}<br>
-                     </div>
-                </p>
-             
-                
-              <p>{{ form.submit() }}</p>
-            </form>
-           
-        </div>
-        
-           
+          {{ form.hidden_tag() }}
+            <div class='form-group'>
+                {{ form.country_field.label }}
+                {{ form.country_field }}
+            </div>
+            <div class='form-group'>
+                {{ form.text.label }}
+                {{ form.text }}
+            </div>
+            <div class='form-group'>
+                    {{form.date_start.label}}
+                    {{ form.date_start }}
+              </div>
+              <div class='form-group'>
+                  {{form.date_end.label}}
+                  {{ form.date_end }}
+              </div>
+            
+          
+            
+          <p>{{ form.submit() }}</p>
         </form>
-      </div>
+    </div>
+</div>
+      
    
 {% endblock %}

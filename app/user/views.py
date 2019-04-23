@@ -9,7 +9,7 @@ bp = Blueprint('user', __name__, url_prefix='/user')
 
 @bp.route('/login')
 def login():
-    page_title = 'Авторизация'
+    page_title = 'Вход в органайзер путешественника'
 
     login_form = LoginForm()
     if current_user.is_authenticated:
@@ -17,7 +17,7 @@ def login():
     return render_template(
         'user/login.html',
         page_title=page_title,
-        title='Sign In',
+        title=page_title,
         form=login_form)
 
 
