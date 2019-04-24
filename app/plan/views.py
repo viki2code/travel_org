@@ -26,6 +26,7 @@ def search_travel_plan():
 
     if not current_user.is_authenticated:
         return redirect(url_for('index'))
+    
     form = CountrySelectForm()
     page_title = 'Найти путешествие'
     form.country_field.query_factory=all_countries
@@ -45,7 +46,7 @@ def search_travel_plan():
             
             for travel_plan in travel_plans:
              
-                country = Country.query.get(travel_plan.country_id).name
+                country = travel_plan.country.name
                 plan = [country, DateFormat(travel_plan.date_start),DateFormat(travel_plan.date_end),travel_plan.id]
                 travel_plans_list.append(plan)
     
@@ -64,7 +65,7 @@ def travel_plan_info(travel_plan_id):
     if not current_user.is_authenticated:
         return redirect(url_for('index'))
    
-    page_title = 'Просмотр информации'
+   
     travel_plan = Travel_plan.query.get(travel_plan_id)
 
     if not travel_plan or travel_plan.user_id != current_user.id:
@@ -77,9 +78,9 @@ def travel_plan_info(travel_plan_id):
      
         date_start =  DateFormat(travel_plan.date_start)
         date_end = DateFormat(travel_plan.date_end)
-        info = f'Описание: {travel_plan.text}'
-        country_name = Country.query.get(travel_plan.country_id).name
-        
+        info = f' {travel_plan.text}'
+        country_name = travel_plan.country.name
+        page_title = f'{country_name}  c {date_start} по {date_end}' 
 
         if travel_plan:
             expenditures = Expenditures.query.filter_by(
@@ -99,10 +100,9 @@ def travel_plan_info(travel_plan_id):
     return render_template(
         'plan/travel_plan_info.html',
         page_title=page_title,
-        date_start=date_start,
-        date_end=date_end,
+        
         info=info,
-        country_name=country_name,
+       
         expenditures=expenditures,
         travel_plan_id=travel_plan_id,
         form=form)
@@ -148,7 +148,7 @@ def edit_travel_plan(travel_plan_id):
     page_title = 'Изменить'
     form = EditTravelPlan()
     travel_plan = Travel_plan.query.get(travel_plan_id)
-    country_name = Country.query.get(travel_plan.country_id).name
+    country_name = travel_plan.country.name
 
     if not travel_plan or travel_plan.user_id != current_user.id:
         flash('Путешествие не найдено')

@@ -1,59 +1,55 @@
 {% extends "base.html" %}
 {% block content %}
        
-               
-                        
-                  
-                        <div >
-                            Страна: {{ country_name }}<br>
-                            Дата начала путешествия: {{date_start}}<br>
-                            Дата окончания путешествия: {{date_end}}<br>
-                           {{info}}<br>
-                        </div>
                       
-                        
-               
-                <div>
-                        <form action="" method="POST" novalidate>
-                                {{ form.hidden_tag() }}
-                               
-                                
-                              
-                                
-                                <p>{{ form.edit_plan }} {{form.add_expanditure}} </p>
-                        </form>
-                </div>
-                </p>
-                <div>
-                    <table class="table">
-                        <thead>
+     
+    <div class="p-3 mb-2 bg-light text-dark">{{info}}</div> 
+       <br>
+    <form action="" method="POST" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="col">{{ form.edit_plan }}</div> 
+                    
+
+                <div class="col">{{form.add_expanditure}} </div>
+                <div class="col"></div> 
+                <div class="col"></div> 
+            </div>
+    </form> <br><br>       
+
+   
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Статьи затрат</th>
+                    <th scope="col">Плановые затраты</th>
+                    <th scope="col">Фактические затраты</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                    
+                    <tbody>
+                        {% for expenditure in expenditures %}
                         <tr>
-                            <th scope="col">Статья затрат</th>
-                            <th scope="col">План</th>
-                            <th scope="col">Факт</th>
-                            <th scope="col"></th>
+                            
+                            <td><a href="{{ url_for('expenditure.edit_expenditure',expenditure_id=expenditure.id) }}"> 
+                                {{ expenditure.text }}</a></td>
+                            <td>{{ expenditure.sum_plan }}</td>
+                            <td>{{ expenditure.sum_real }}</td>
+                            <td>
+                                <a href="{{ url_for('expenditure.delete_expenditure',expenditure_id=expenditure.id) }}"> 
+                                Удалить</a></td>
                         </tr>
-                        </thead>
-                        <tbody>
-                            
-                            <tbody>
-                                {% for expenditure in expenditures %}
-                                <tr>
-                                    
-                                    <td><a href="{{ url_for('expenditure.edit_expenditure',expenditure_id=expenditure.id) }}"> 
-                                        {{ expenditure.text }}</a></td>
-                                    <td>{{ expenditure.sum_plan }}</td>
-                                    <td>{{ expenditure.sum_real }}</td>
-                                    <td><a href="{{ url_for('expenditure.delete_expenditure',expenditure_id=expenditure.id) }}"> 
-                                        Удалить</a></td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                            
-                        
-                        </tbody>
-                    </table>
+                        {% endfor %}
+                    </tbody>
+                    
                 
+                </tbody>
+            </table>
+        </div>
         
+
 
 {% endblock %}

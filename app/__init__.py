@@ -34,11 +34,6 @@ def create_app():
     def load_user(user_id):
         return User.query.get(user_id)
 
-
-
-
-
-
     @app.route('/', methods=['GET', 'POST','PUT'])
     def index():
         
@@ -49,46 +44,16 @@ def create_app():
             &(Travel_plan.date_start > datetime.now())).all()
         plans_new = []
         for travel_plan in travel_plans_new:
-            plan = {'name_travel':travel_plan.country.name,'about':travel_plan.text,'id':travel_plan.id}
-            
+            plan = {'name_travel':travel_plan.country.name,'about':travel_plan.text,'id':travel_plan.id} 
             plans_new.append(plan)
+        
         travel_plans_old = Travel_plan.query.filter((Travel_plan.user_id==current_user.id)
             &(Travel_plan.date_start < datetime.now())).all()
         plans_old = []
         for travel_plan in travel_plans_old:
             plan = {'name_travel':travel_plan.country.name,'about':travel_plan.text,'id':travel_plan.id}
-            
             plans_old.append(plan)
-        '''
-        form.currency.choices = all_currency()
-        
-        page_title = 'Курс валюты на сегодня:'
-        name_of_currency = ''
-        rate = ''
 
-        try:
-            currency_data = rate_of_exchange(
-            'EUR')
-            name_of_curency=currency_data['name_of_currency'],
-            rate=currency_data['rate']
-        except (requests.RequestException, TypeError,ValueError):
-            flash('Отсутствие связи')
-            
-        
-        if form.validate_on_submit():
-            print(form.currency.data)
-            currency_data = rate_of_exchange(
-                form.currency.data)
-           
-            return redirect(
-                url_for('index'))
-        elif request.method == 'PUT':
-            form.rate.data = currency_data['rate']
-            print(form.rate.data)
-            return redirect(
-                url_for('index'))
-
-        print(form.errors)'''
         return render_template(
             'index.html',
             page_title= page_title,
@@ -97,3 +62,5 @@ def create_app():
     
 
     return app
+
+

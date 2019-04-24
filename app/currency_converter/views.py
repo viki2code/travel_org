@@ -5,6 +5,7 @@ from app.currency_converter.forms import CurrencyInputForm
 from app.currency_converter.currency import rate_of_exchange,all_currency,notNone
 from flask import render_template, redirect, url_for, flash, request
 from flask import Blueprint
+import requests
 
 bp = Blueprint('currency_converter', __name__, url_prefix='/currency_converter')
 
@@ -25,11 +26,20 @@ def calc_currency(param):
 
     elif request.method == 'GET':
          #если нет трех элементов в list то кидать 400 ошибку
-        currency_convert = param_list[1]
-        currency_convert_data = rate_of_exchange(currency_convert)    
-        currency = param_list[2]
-        currency_data = rate_of_exchange(currency)    
-        rate = param_list[0]  
+       
+
+
+        try:
+            currency_convert = param_list[1]
+            currency_convert_data = rate_of_exchange(currency_convert)    
+            currency = param_list[2]
+            currency_data = rate_of_exchange(currency)    
+            rate = param_list[0]  
+           
+        except (requests.RequestException, TypeError,ValueError):
+            return redirect(
+            url_for('index'))
+            
         form.currency.choices = all_currency()
         form.currency.default = currency
         form.currency_convert.choices = all_currency(['EUR','USD'])
@@ -40,9 +50,10 @@ def calc_currency(param):
         rate_convert = round(float(notNone(rate,1))/float(currency_convert_data['rate'].replace(',','.')),2)
         rate_country = round(float(notNone(rate,1)) /float(currency_data['rate'].replace(',','.')),2)
         converter = f'{rate} RUB = {rate_convert} {currency_convert} = {rate_country} {currency}'
-
+        info =  f'по курсу ЦБРФ {datetime.now().strftime("%d/%m/%Y")}'
     return render_template(
         'currency_converter/rate.html',
         page_title=page_title,
+        info=info,
         converter=converter,
         form=form)

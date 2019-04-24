@@ -12,7 +12,7 @@ from flask import Blueprint
 bp = Blueprint('expenditure', __name__, url_prefix='/expenditure')
 
 def get_travel_name(travel_plan):
-    country_name = Country.query.get(travel_plan.country_id).name
+    country_name = travel_plan.country.name
     date_start = travel_plan.date_start.strftime('%d/%m/%Y')
     date_end = travel_plan.date_end.strftime('%d/%m/%Y')
     return f'{country_name}: {date_start}-{date_end}'
@@ -60,6 +60,7 @@ def edit_expenditure(expenditure_id):
     
     if not current_user.is_authenticated:
         return redirect(url_for('index'))
+        
     page_title = 'Изменить статью затрат'
     form = EditExpanditureForm()
     expenditure = Expenditures.query.get(expenditure_id)

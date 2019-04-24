@@ -25,36 +25,37 @@
             <h2>
                {{page_title}}
             </h2>
-            
-            <form action="" method="post" novalidate>
-                {{ form.hidden_tag() }}
-                <div>
-                    {{ form.country_field.label }}
-                    {{ form.country_field }}
-                </div >
-                <br>  
-                <div >
-                    Дата начала путешествия
-                    <br>
-                    {{ form.date_start (class='datepicker') }}
+            <div class="row">
+                <div class="col-md-4">  
+                  <form action="" method="post" novalidate>
+                      {{ form.hidden_tag() }}
+                      <div>
+                          {{ form.country_field.label }}
+                          {{ form.country_field }}
+                      </div >
+                      <br>  
+                      <div class='form-group'>
+                          {{ form.date_start.label }}
+                          {{ form.date_start (class='datepicker') }}
+                      </div>
+                      
+                      <div class='form-group'>
+                          {{form.date_end.label}}
+                          {{ form.date_end (class='datepicker')}}
+                      </div>
+                    <br>        
+                    <div>{{ form.submit() }}</div>
+                  
+                  </form>
                 </div>
-                <br>
-                <div>
-                    Дата окончания путешествия
-                    <br>
-                    {{ form.date_end (class='datepicker')}}
-                </div>
-               <br>        
-              <div>{{ form.submit() }}</div>
-             
-            </form>
+            </div>
             <br>
-            <table class="table">
+            <table class="table table-hover">
                 <thead>
                   <tr>
                     <th scope="col">Страна</th>
                     <th scope="col">Дата выезда</th>
-                    <th scope="col">Вата возвращения</th>
+                    <th scope="col">Дата возвращения</th>
                     
                   </tr>
                 </thead>
