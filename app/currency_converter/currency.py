@@ -8,7 +8,9 @@ def find_element(root, code_valute):
         if valute.find('CharCode').text.upper() == code_valute.upper():
             currency_data = {'name_of_currency': valute.find('Name').text,
                              'rate': valute.find('Value').text,
-                             'currency_code':valute.find('CharCode').text}
+                             'currency_code':valute.find('CharCode').text,
+                             'nominal':valute.find('Nominal').text}
+            print(currency_data)
             return currency_data
     currency_data = {'name_of_currency': 'Указанная валюта не найдена',
                      'rate': '',
@@ -53,3 +55,6 @@ def notNone(rate,value):
         return value
     else:
         return rate
+
+def calculate_currency(value_rub,value_currency,nominal):
+   return round(float(notNone(value_rub,1))/float(value_currency.replace(',','.')),2)*float(nominal)

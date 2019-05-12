@@ -2,7 +2,7 @@ from app.models import db
 from datetime import datetime
 from flask import render_template
 from app.currency_converter.forms import CurrencyInputForm
-from app.currency_converter.currency import rate_of_exchange,all_currency,notNone
+from app.currency_converter.currency import rate_of_exchange,all_currency, calculate_currency
 from flask import render_template, redirect, url_for, flash, request
 from flask import Blueprint
 import requests
@@ -47,8 +47,8 @@ def calc_currency(param):
         
         form.process()
         form.rate.data = rate
-        rate_convert = round(float(notNone(rate,1))/float(currency_convert_data['rate'].replace(',','.')),2)
-        rate_country = round(float(notNone(rate,1)) /float(currency_data['rate'].replace(',','.')),2)
+        rate_convert = calculate_currency(rate,currency_convert_data['rate'],currency_convert_data['nominal'])
+        rate_country = calculate_currency(rate,currency_data['rate'],currency_data['nominal'])
         converter = f'{rate} RUB = {rate_convert} {currency_convert} = {rate_country} {currency}'
         info =  f'по курсу ЦБРФ {datetime.now().strftime("%d/%m/%Y")}'
     return render_template(

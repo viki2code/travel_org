@@ -6,3 +6,4 @@ fill_model.py
 create_admin.py
 env
 .vscode/
+*.csv

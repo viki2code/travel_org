@@ -36,13 +36,22 @@
                             
                             <td><a href="{{ url_for('expenditure.edit_expenditure',expenditure_id=expenditure.id) }}"> 
                                 {{ expenditure.text }}</a></td>
-                            <td>{{ expenditure.sum_plan }}</td>
-                            <td>{{ expenditure.sum_real }}</td>
+                            <td>{{ expenditure.sum_plan }} &#8381</td>
+                            <td>{{ expenditure.sum_real }}  &#8381</td>
                             <td>
                                 <a href="{{ url_for('expenditure.delete_expenditure',expenditure_id=expenditure.id) }}"> 
                                 Удалить</a></td>
                         </tr>
                         {% endfor %}
+                        <tr>
+                            
+                                <td> 
+                                    Итого</a></td>
+                                <td>{{ full_sum_plan }} &#8381</td>
+                                <td>{{ full_sum_fact }}  &#8381</td>
+                                <td>
+                                </td>
+                        </tr>
                     </tbody>
                     
                 

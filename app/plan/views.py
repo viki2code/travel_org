@@ -7,7 +7,7 @@ from app.plan.country import all_countries
 from app.expenditure.models import Expenditures
 from flask import Blueprint
 from flask_login import current_user, UserMixin
-from sqlalchemy import or_, and_
+from sqlalchemy import or_, and_,func
 
 bp = Blueprint('plan', __name__,url_prefix='/plan')
 
@@ -35,12 +35,17 @@ def search_travel_plan():
     if form.validate_on_submit():
         if form.date_start.data and form.date_end.data and form.date_start.data > form.date_end.data:
             flash('Дата начала путешествия должна быть ранее даты окончания')
-       
-        travel_plans = Travel_plan.query.filter((Travel_plan.country_id==form.country_field.data.id)
-        &(Travel_plan.user_id==current_user.id)
-        &(Travel_plan.date_end >=notNone(form.date_start.data,'01/01/1900'))
-        &(Travel_plan.date_start <=notNone(form.date_start.data,'01/01/2100'))
-        ).all()
+        if form.country_field.data is not None:
+            travel_plans = Travel_plan.query.filter((Travel_plan.country_id==form.country_field.data.id)
+            &(Travel_plan.user_id==current_user.id)
+            &(Travel_plan.date_end >=notNone(form.date_start.data,'01/01/1900'))
+            &(Travel_plan.date_start <=notNone(form.date_end.data,'01/01/2100'))
+            ).all()
+        else:
+            travel_plans = Travel_plan.query.filter((Travel_plan.user_id==current_user.id)
+            &(Travel_plan.date_end >=notNone(form.date_start.data,'01/01/1900'))
+            &(Travel_plan.date_start <=notNone(form.date_end.data,'01/01/2100'))
+            ).all()
          
         if travel_plans:
             
@@ -81,11 +86,17 @@ def travel_plan_info(travel_plan_id):
         info = f' {travel_plan.text}'
         country_name = travel_plan.country.name
         page_title = f'{country_name}  c {date_start} по {date_end}' 
+        full_sum_plan = 0
+        full_sum_fact = 0
 
         if travel_plan:
             expenditures = Expenditures.query.filter_by(
                 travel_plan_id=travel_plan.id).all()   
+            for exp in expenditures:
+                full_sum_plan += exp.sum_plan
+                full_sum_fact += exp.sum_real
 
+        
     elif form.validate_on_submit() and travel_plan and travel_plan.user_id == current_user.id:
         if form.edit_plan.data:
             
@@ -102,7 +113,8 @@ def travel_plan_info(travel_plan_id):
         page_title=page_title,
         
         info=info,
-       
+        full_sum_plan=full_sum_plan,
+        full_sum_fact=full_sum_fact,
         expenditures=expenditures,
         travel_plan_id=travel_plan_id,
         form=form)
