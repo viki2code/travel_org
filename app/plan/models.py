@@ -4,11 +4,11 @@ from app.models import db
 from datetime import datetime
 from sqlalchemy.orm import relationship
 
+
 class Country(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String, nullable=False, unique=True)
     name = db.Column(db.String, nullable=False, unique=True)
-    
 
     def __repr__(self):
         return '{}'.format(self.id)
@@ -23,8 +23,8 @@ class Travel_plan(db.Model):
     user_id = db.Column(
         db.Integer,
         db.ForeignKey('user.id', ondelete='CASCADE'))
-    country = relationship('Country',backref='Travel_plan')
+    country = relationship('Country', backref='Travel_plan')
+
     def __repr__(self):
         return '<TravelPlan {} {} {} {}>'.format(
-            self.date_start, self.date_end, self.text,self.country_id)
-
+            self.date_start, self.date_end, self.text, self.country_id)

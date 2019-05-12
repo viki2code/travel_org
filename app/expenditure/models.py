@@ -14,9 +14,11 @@ class Expenditures(db.Model):
         'Expand_expenditures',
         backref='Expenditures',
         lazy='dynamic')
-    travel_plan = relationship('Travel_plan',backref='Expenditures')
+    travel_plan = relationship('Travel_plan', backref='Expenditures')
+
     def __repr__(self):
         return '<Expenditure {}>'.format(self.text)
+
 
 class Expand_expenditures(db.Model):
     id = db.Column(db.Integer, primary_key=True)

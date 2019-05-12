@@ -7,6 +7,7 @@ from flask import Blueprint
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
+
 @bp.route('/login')
 def login():
     page_title = 'Вход в органайзер путешественника'
@@ -41,19 +42,27 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+
 @bp.route('/register')
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = RegistrationForm()
     title = "Регистрация"
-    return render_template('user/registration.html', page_title=title, form=form)
+    return render_template(
+        'user/registration.html',
+        page_title=title,
+        form=form)
+
 
 @bp.route('/process-reg', methods=['POST'])
 def process_reg():
     form = RegistrationForm()
     if form.validate_on_submit():
-        new_user = User(username=form.username.data, email=form.email.data, role='user')
+        new_user = User(
+            username=form.username.data,
+            email=form.email.data,
+            role='user')
         new_user.set_password(form.password.data)
         db.session.add(new_user)
         db.session.commit()
